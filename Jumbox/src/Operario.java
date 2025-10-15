@@ -51,6 +51,7 @@ public class Operario extends Usuario {
     	
     }
 
+    
 
     
     

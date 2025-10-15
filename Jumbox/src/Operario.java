@@ -9,5 +9,6 @@ public class Operario extends Usuario {
 	private Sector sector;
     private ArrayList<Inventario> inventarios;
 
+    
 
 }

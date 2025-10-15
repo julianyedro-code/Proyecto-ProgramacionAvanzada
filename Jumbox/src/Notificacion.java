@@ -62,6 +62,7 @@ public class Notificacion {
 	public void setUsuarioDestinatario(Usuario usuarioDestinatario) {
 		this.usuarioDestinatario = usuarioDestinatario;
 	}
+	
 	public ArrayList<Usuario> getUsuariosNotificados() {
 		return usuariosNotificados;
 	}

@@ -32,7 +32,7 @@ public class Pedido {
 		this.fechaEntrega = fechaEntrega;
 		this.estado = estado;
 		this.usuarioGenerador = usuarioGenerador;
-		this.notificacion = notificacion;
+		this.notificaciones= notificacion;
 	}
 
 	public String getIdPedido() {

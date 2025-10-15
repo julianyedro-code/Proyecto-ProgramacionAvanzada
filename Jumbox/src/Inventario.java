@@ -146,6 +146,7 @@ public class Inventario {
     }
 
     public ArrayList<Producto> obtenerProductosPorSector(Sector sector) {
+    	
         ArrayList<Producto> productosSector = new ArrayList<>();
         
         return productosSector;

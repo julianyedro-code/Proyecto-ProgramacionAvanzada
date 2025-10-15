@@ -107,6 +107,22 @@ public class Sector {
 	}
     
  
+	 public ArrayList<Producto> obtenerProductos() {
+	        return productos;
+	    }
+
+	    public void agregarProducto(Producto producto) {
+	        if (productos == null) {
+	            productos = new ArrayList<>();
+	        }
+	        productos.add(producto);
+	    }
+
+	    public void eliminarProducto(Producto producto) {
+	        if (productos != null) {
+	            productos.remove(producto);
+	        }
+	    }
 	
 	
 }

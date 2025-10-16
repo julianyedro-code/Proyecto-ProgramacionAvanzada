@@ -34,6 +34,19 @@ public class Usuario {
 		this.notificaciones = notificaciones;
 	}
 
+	public Usuario(int idUsuario, String nombre, String dni, String email, Direccion direccion, String telefono,
+			String contrasenia, boolean activo) {
+		super();
+		this.idUsuario = idUsuario;
+		this.nombre = nombre;
+		this.dni = dni;
+		this.email = email;
+		this.direccion = direccion;
+		this.telefono = telefono;
+		this.contrasenia = contrasenia;
+		this.activo = activo;
+	}
+	
 	public int getIdUsuario() {
 		return idUsuario;
 	}
@@ -90,7 +103,7 @@ public class Usuario {
 		this.contrasenia = contrasenia;
 	}
 
-	public boolean isActivo() {
+	public boolean getActivo() {
 		return activo;
 	}
 

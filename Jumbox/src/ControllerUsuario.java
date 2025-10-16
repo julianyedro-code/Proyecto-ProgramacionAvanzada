@@ -10,50 +10,65 @@ public class ControllerUsuario {
 
     private static Connection con = Conexion.getInstance().getConnection();
 
-    public static Usuario login() {
-        String mail;
-        do {
-            mail = JOptionPane.showInputDialog("Ingrese mail");
-        } while (mail == null || mail.isEmpty());
-        
-        String password;
-        do {
-            password = JOptionPane.showInputDialog("Ingrese password");
-        } while (password == null || password.isEmpty());
-        
-        Usuario usuario = null;
-        try {
-            PreparedStatement stmt = con.prepareStatement("SELECT * FROM usuario WHERE email = ? AND contrasenia = ?");
-            stmt.setString(1, mail);
-            stmt.setString(2, password);
-            
-            ResultSet rs = stmt.executeQuery();
+    public static Usuario login(String mail,String password) {
+       
+    	 
+    	do {
+    		
+    		mail=JOptionPane.showInputDialog("Ingrese email");
+			
+		} while (mail.isEmpty());
+    	
+    	do {
+		
+    		password=JOptionPane.showInputDialog("Ingrese password");
+		
+    	} while (password.isEmpty());
+    	
+    	
+    	Usuario usuario=null;
+    	
+    	
+    	
+    	
+    	
+    	
+    	try {
+    		PreparedStatement Logueo= con.prepareStatement("SELECT * FROM `usuario` WHERE email = ? AND contrasenia = ?");
+			
+    		Logueo.setString(1,mail);
+    		Logueo.setString(2, password); 
+    		
+    		ResultSet resultado = Logueo.executeQuery();
+    		
+    		if (resultado.next()) {
+				
+    			  int id=resultado.getInt("id_usuario");
+    			  String nombre = resultado.getString("nombre");
+                  String email = resultado.getString("email");
+                  String contrasenia = resultado.getString("contrasenia");
+                  boolean activo = resultado.getBoolean("activo");
+                  
+                  usuario = new Usuario();
+                  
+                  usuario.getIdUsuario();
+                  usuario.getNombre();
+                  usuario.getEmail();
+                  usuario.getContrasenia();
+                  usuario.getActivo();
+                  
+			}
+    		
+		} catch (Exception e) {
 
-            if (rs.next()) {
-                int id = rs.getInt("idUsuario");
-                String nombre = rs.getString("nombre");
-                String dni = rs.getString("dni");
-                String email = rs.getString("email");
-                String telefono = rs.getString("telefono");
-                String contrasenia = rs.getString("contrasenia");
-                boolean activo = rs.getBoolean("activo");
-                
-                usuario = new Usuario();
-                usuario.setIdUsuario(id);
-                usuario.setNombre(nombre);
-                usuario.setDni(dni);
-                usuario.setEmail(email);
-                usuario.setTelefono(telefono);
-                usuario.setContrasenia(contrasenia);
-                usuario.setActivo(activo);
-            
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Error en login: " + e.getMessage());
-        }
-        return usuario;
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Error en el logueo"+ e.getMessage());
+		
+		}
+    	return usuario;
+    	
+    	
+    	
     }
 
     public static Usuario buscarPorID(int id) {
@@ -88,20 +103,20 @@ public class ControllerUsuario {
         return usuario;
     }
 
-    public static void EditarUsuario(Usuario usuario) {
+    public static void editarUsuario(Usuario usuario) {
         try {
-            PreparedStatement statement = con.prepareStatement(
+            PreparedStatement Editar = con.prepareStatement(
                 "UPDATE usuario SET nombre=?, dni=?, email=?, telefono=?, contrasenia=?, activo=? WHERE idUsuario=?"
             );
-            statement.setString(1, usuario.getNombre());
-            statement.setString(2, usuario.getDni());
-            statement.setString(3, usuario.getEmail());
-            statement.setString(4, usuario.getTelefono());
-            statement.setString(5, usuario.getContrasenia());
-            statement.setBoolean(6, usuario.isActivo());
-            statement.setInt(7, usuario.getIdUsuario());
+            Editar.setString(1, usuario.getNombre());
+            Editar.setString(2, usuario.getDni());
+            Editar.setString(3, usuario.getEmail());
+            Editar.setString(4, usuario.getTelefono());
+            Editar.setString(5, usuario.getContrasenia());
+            Editar.setBoolean(6, usuario.getActivo());
+            Editar.setInt(7, usuario.getIdUsuario());
 
-            int filas = statement.executeUpdate();
+            int filas = Editar.executeUpdate();
             if (filas > 0) {
                 System.out.println("Usuario editado correctamente.");
             }
@@ -112,10 +127,10 @@ public class ControllerUsuario {
 
     public static void EliminarUsuario(int id) {
         try {
-            PreparedStatement statement = con.prepareStatement("UPDATE usuario SET activo = false WHERE idUsuario = ?");
-            statement.setInt(1, id);
+            PreparedStatement eliminar = con.prepareStatement("UPDATE usuario SET activo = false WHERE idUsuario = ?");
+            eliminar.setInt(1, id);
 
-            int filas = statement.executeUpdate();
+            int filas = eliminar.executeUpdate();
             if (filas > 0) {
                 System.out.println("Usuario desactivado correctamente.");
             }
@@ -124,6 +139,21 @@ public class ControllerUsuario {
         }
     }
 
+    private static boolean emailExiste(String email) {
+        try {
+            PreparedStatement emailExistente = con.prepareStatement("SELECT COUNT(*) FROM usuario WHERE email = ?");
+            emailExistente.setString(1, email);
+            ResultSet rs = emailExistente.executeQuery();
+            
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+    
     public static void agregarUsuario(Usuario usuario) {
         if (emailExiste(usuario.getEmail())) {
             JOptionPane.showMessageDialog(null, "Ya existe un usuario con este email");
@@ -139,7 +169,7 @@ public class ControllerUsuario {
             statement.setString(3, usuario.getEmail());
             statement.setString(4, usuario.getTelefono());
             statement.setString(5, usuario.getContrasenia());
-            statement.setBoolean(6, usuario.isActivo());
+            statement.setBoolean(6, usuario.getActivo());
 
             int filas = statement.executeUpdate();
             if (filas > 0) {
@@ -151,20 +181,6 @@ public class ControllerUsuario {
         }
     }
 
-    private static boolean emailExiste(String email) {
-        try {
-            PreparedStatement stmt = con.prepareStatement("SELECT COUNT(*) FROM usuario WHERE email = ?");
-            stmt.setString(1, email);
-            ResultSet rs = stmt.executeQuery();
-            
-            if (rs.next()) {
-                return rs.getInt(1) > 0;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
 
     public static LinkedList<Usuario> mostrarUsuarios() {
         LinkedList<Usuario> usuarios = new LinkedList<>();

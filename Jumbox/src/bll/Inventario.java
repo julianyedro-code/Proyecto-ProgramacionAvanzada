@@ -1,4 +1,11 @@
+package bll;
 import java.util.ArrayList;
+
+import AlertaStock;
+import Categoria;
+import Producto;
+import Sector;
+
 import java.util.*;
 import java.time.*;
 

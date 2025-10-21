@@ -1,4 +1,7 @@
 import java.util.ArrayList;
+
+import bll.Usuario;
+
 import java.util.*;
 import java.time.*;
 

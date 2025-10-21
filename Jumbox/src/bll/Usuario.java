@@ -1,52 +1,69 @@
+package bll;
 import java.util.ArrayList;
+
+
 import java.util.*;
 import java.time.*;
 
-
 public class Usuario {
-	
     private int idUsuario;
     private String nombre;
+    private String apellido;
     private String dni;
     private String email;
-    private Direccion direccion;
+    private String legajo;
+    private int id_direccion; 
     private String telefono;
+    private double sueldo;
     private String contrasenia;
     private boolean activo;
     private ArrayList<Notificacion> notificaciones;
-	
+
     public Usuario() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-
-	public Usuario(int idUsuario, String nombre, String dni, String email, Direccion direccion, String telefono,
-			String contrasenia, boolean activo, ArrayList<Notificacion> notificaciones) {
-		super();
-		this.idUsuario = idUsuario;
-		this.nombre = nombre;
-		this.dni = dni;
-		this.email = email;
-		this.direccion = direccion;
-		this.telefono = telefono;
-		this.contrasenia = contrasenia;
-		this.activo = activo;
-		this.notificaciones = notificaciones;
-	}
-
-	public Usuario(int idUsuario, String nombre, String dni, String email, Direccion direccion, String telefono,
-			String contrasenia, boolean activo) {
+    	
+    }
+    
+    public Usuario(int idUsuario, String nombre,String apellido, String dni, String email,String legajo, int id_direccion, String telefono,double sueldo,String contrasenia, boolean activo) {
+		
 		super();
 		this.idUsuario = idUsuario;
 		this.nombre = nombre;
+		this.apellido=apellido;
 		this.dni = dni;
 		this.email = email;
-		this.direccion = direccion;
+		this.legajo=legajo;
+		this.id_direccion = id_direccion;
 		this.telefono = telefono;
+		this.sueldo=sueldo;
 		this.contrasenia = contrasenia;
 		this.activo = activo;
 	}
-	
+
+	 	
+	public String getApellido() {
+		return apellido;
+	}
+
+	public void setApellido(String apellido) {
+		this.apellido = apellido;
+	}
+
+	public String getLegajo() {
+		return legajo;
+	}
+
+	public void setLegajo(String legajo) {
+		this.legajo = legajo;
+	}
+
+	public double getSueldo() {
+		return sueldo;
+	}
+
+	public void setSueldo(double sueldo) {
+		this.sueldo = sueldo;
+	}
+
 	public int getIdUsuario() {
 		return idUsuario;
 	}
@@ -79,13 +96,14 @@ public class Usuario {
 		this.email = email;
 	}
 
-	public Direccion getDireccion() {
-		return direccion;
-	}
 
-	public void setDireccion(Direccion direccion) {
-		this.direccion = direccion;
-	}
+	public int getIdDireccion() {
+        return id_direccion;
+    }
+
+    public void setIdDireccion(int id_direccion) {
+        this.id_direccion = id_direccion;
+    }
 
 	public String getTelefono() {
 		return telefono;

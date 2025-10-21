@@ -1,4 +1,7 @@
 import java.util.ArrayList;
+
+import bll.Inventario;
+
 import java.util.*;
 import java.time.*;
 

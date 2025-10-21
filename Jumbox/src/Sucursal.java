@@ -1,4 +1,9 @@
 import java.util.ArrayList;
+
+import bll.Direccion;
+import bll.Inventario;
+import bll.Usuario;
+
 import java.util.*;
 import java.time.*;
 

@@ -22,27 +22,7 @@ public class ControllerUsuario {
        
     	Usuario usuario=null;
     	 
-    	while (mail.isEmpty()) {
-    	
-    		mail=JOptionPane.showInputDialog("Ingrese email");
-			
-    		if (mail.isEmpty()) {
-				JOptionPane.showMessageDialog(null, "Debe  ingresar algun dato");			
-    		}
-    		else if(emailExiste(mail)){
-    			
-    		}
-    	}
-    	
-    	while (password.isEmpty()){
-		
-    		password=JOptionPane.showInputDialog("Ingrese password");
-    		
-    		if (password.isEmpty()) {
-				JOptionPane.showMessageDialog(null, "Debe  ingresar algun dato");			
-    		}
-    	}
-    	
+    	 
     	
     	
     	try {
@@ -177,7 +157,9 @@ public class ControllerUsuario {
     
     
     public static Usuario agregarUsuario(Usuario usuario) {
-    	
+    	 
+    		
+    	    
     	
     	try {
     		 
@@ -195,6 +177,10 @@ public class ControllerUsuario {
             statement.setString(7, usuario.getTelefono());
             statement.setString(8, usuario.getContrasenia());
             statement.setBoolean(9, true);
+            
+            
+            
+            
             
             int filas = statement.executeUpdate();
             if (filas > 0) {
@@ -241,4 +227,36 @@ public class ControllerUsuario {
         }
         return direccion;   
     }
+    
+    public static Direccion editarDireccion(Direccion direccion) {
+        try {
+            PreparedStatement actualizarDireccion = con.prepareStatement(
+                "UPDATE direccion SET calle = ?, numero = ?, ciudad = ?, provincia = ? WHERE id_direccion = ?"
+            );
+            
+            actualizarDireccion.setString(1, direccion.getCalle());
+            actualizarDireccion.setInt(2, direccion.getNumeroCalle());
+            actualizarDireccion.setString(3, direccion.getCiudad());
+            actualizarDireccion.setString(4, direccion.getProvincia());
+            actualizarDireccion.setInt(5, direccion.getIdDireccion());  
+            
+            int filasAfectadas = actualizarDireccion.executeUpdate();
+            
+            if (filasAfectadas > 0) {
+                System.out.println("Dirección editada exitosamente. ID: " + direccion.getIdDireccion());
+            } else {
+                System.out.println("No se encontró la dirección con ID: " + direccion.getIdDireccion());
+            }
+            
+            actualizarDireccion.close();
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error al editar dirección: " + e.getMessage());
+        }
+        return direccion;   
+    }
+
+    
+    
 }

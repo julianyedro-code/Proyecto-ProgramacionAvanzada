@@ -29,6 +29,9 @@ public class ControllerUsuario {
     		if (mail.isEmpty()) {
 				JOptionPane.showMessageDialog(null, "Debe  ingresar algun dato");			
     		}
+    		else if(emailExiste(mail)){
+    			
+    		}
     	}
     	
     	while (password.isEmpty()){
@@ -52,7 +55,8 @@ public class ControllerUsuario {
 		ResultSet resultado = logueo.executeQuery();
     		
 		if (resultado.next()) {
-		
+			
+			
 			int id = resultado.getInt("id_usuario");
 			String nombre=resultado.getString("nombre");
 			String apellido=resultado.getString("apellido");
@@ -65,11 +69,11 @@ public class ControllerUsuario {
 			String contrasenia =resultado.getString("contrasenia");
 			boolean activo=resultado.getBoolean("activo");
 			
-
 			usuario =new Usuario(id,nombre,apellido,dni,email,legajo,direccion,telefono,sueldo,contrasenia,activo);
 
 			JOptionPane.showMessageDialog(null,"Bienvenido "+usuario.getNombre());
-			 
+			
+			
 		}
 		
 		
@@ -121,12 +125,13 @@ public class ControllerUsuario {
     	
     }
     
-    public static boolean dniExiste() {
+    
+    public static boolean dniExiste(String dni) {
     	try {
-    		PreparedStatement emailExistente =con.prepareStatement("SELECT COUNT(*) FROM usuario WHERE email=?");
-    		emailExistente.setString(1, email);
+    		PreparedStatement dniExistente =con.prepareStatement("SELECT COUNT(*) FROM usuario WHERE dni=?");
+    		dniExistente.setString(1, dni);
     		
-    		ResultSet resultado = emailExistente.executeQuery();
+    		ResultSet resultado = dniExistente.executeQuery();
     		
     		if (resultado.next()) {
     			
@@ -144,6 +149,32 @@ public class ControllerUsuario {
 		
     	}
     }
+    
+
+    public static boolean telefonoExiste(String telefono) {
+    	try {
+    		PreparedStatement telefonoExistente =con.prepareStatement("SELECT COUNT(*) FROM usuario WHERE telefono=?");
+    		telefonoExistente.setString(1, telefono);
+    		
+    		ResultSet resultado = telefonoExistente.executeQuery();
+    		
+    		if (resultado.next()) {
+    			
+    			if (resultado.getInt(1)>0) {
+    				return true;
+    			}
+    		
+    		}
+    		return false;
+
+    	}
+    	catch(Exception e){
+    		e.printStackTrace();
+			return false;
+		
+    	}
+    }
+    
     
     public static Usuario agregarUsuario(Usuario usuario) {
     	

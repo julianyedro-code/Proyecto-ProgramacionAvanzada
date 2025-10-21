@@ -15,30 +15,30 @@ public class ControllerUsuario {
 
     private static Connection con = Conexion.getInstance().getConnection();
 
+ 
+    
+    
     public static Usuario login(String mail,String password) {
        
     	Usuario usuario=null;
     	 
-    	do {
-    		
+    	while (mail.isEmpty()) {
+    	
     		mail=JOptionPane.showInputDialog("Ingrese email");
 			
     		if (mail.isEmpty()) {
-				JOptionPane.showMessageDialog(null, "Debe  ingresar algun dato");
-					
-			}
-    		
-		} while (mail.isEmpty());
+				JOptionPane.showMessageDialog(null, "Debe  ingresar algun dato");			
+    		}
+    	}
     	
-    	do {
+    	while (password.isEmpty()){
 		
     		password=JOptionPane.showInputDialog("Ingrese password");
-		
-
-				
-    	} while (password.isEmpty());
-    	
-    	
+    		
+    		if (password.isEmpty()) {
+				JOptionPane.showMessageDialog(null, "Debe  ingresar algun dato");			
+    		}
+    	}
     	
     	
     	
@@ -64,8 +64,9 @@ public class ControllerUsuario {
 			double sueldo=resultado.getDouble("sueldo");
 			String contrasenia =resultado.getString("contrasenia");
 			boolean activo=resultado.getBoolean("activo");
-	
-			usuario =new Usuario(id,nombre,apellido,dni,email,legajo,null,telefono,sueldo,contrasenia,activo);
+			
+
+			usuario =new Usuario(id,nombre,apellido,dni,email,legajo,direccion,telefono,sueldo,contrasenia,activo);
 
 			JOptionPane.showMessageDialog(null,"Bienvenido "+usuario.getNombre());
 			 
@@ -120,6 +121,29 @@ public class ControllerUsuario {
     	
     }
     
+    public static boolean dniExiste() {
+    	try {
+    		PreparedStatement emailExistente =con.prepareStatement("SELECT COUNT(*) FROM usuario WHERE email=?");
+    		emailExistente.setString(1, email);
+    		
+    		ResultSet resultado = emailExistente.executeQuery();
+    		
+    		if (resultado.next()) {
+    			
+    			if (resultado.getInt(1)>0) {
+    				return true;
+    			}
+    		
+    		}
+    		return false;
+
+    	}
+    	catch(Exception e){
+    		e.printStackTrace();
+			return false;
+		
+    	}
+    }
     
     public static Usuario agregarUsuario(Usuario usuario) {
     	
